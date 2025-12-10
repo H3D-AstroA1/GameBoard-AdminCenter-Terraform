@@ -1,0 +1,63 @@
+# ============================================================================
+# GAMEBOARD TO ADMINCENTER LOG MIGRATION - TERRAFORM VARIABLES
+# ============================================================================
+# 
+# Fill in your actual values below. Save this as terraform.tfvars
+# DO NOT commit this file to git if it contains secrets!
+#
+
+# ============================================================================
+# GAMEBOARD TENANT (SOURCE) - Log Analytics Workspace Location
+# ============================================================================
+
+gameboard_tenant_id       = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # Your GameBoard Tenant ID
+gameboard_subscription_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # Your GameBoard Subscription ID
+gameboard_resource_group  = "existing-resource-group"               # Existing RG containing Log Analytics
+gameboard_workspace_name  = "your-log-analytics-workspace"          # Existing Log Analytics workspace name
+gameboard_workspace_id    = "/subscriptions/xxx/resourceGroups/xxx/providers/Microsoft.OperationalInsights/workspaces/xxx"
+
+# ============================================================================
+# ADMINCENTER TENANT (DESTINATION) - Where Data Factory will be created
+# ============================================================================
+
+admincenter_tenant_id       = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # Your AdminCenter Tenant ID
+admincenter_subscription_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # Your AdminCenter Subscription ID
+admincenter_resource_group  = "logs-migration-rg"                      # New RG to create
+admincenter_location        = "eastus"                                 # Azure region (eastus, westus2, etc.)
+environment                 = "prod"                                   # dev, staging, or prod
+
+# ============================================================================
+# CROSS-TENANT SETTINGS (From Phase 1 and Phase 2 outputs)
+# ============================================================================
+
+service_principal_app_id     = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # From Phase 1 output
+managed_identity_client_id   = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # From Phase 2 output
+
+# ============================================================================
+# OPTIONAL: LOG FILTERING
+# ============================================================================
+# Leave as null to get ALL logs from last 24 hours
+# Or customize the Kusto query to filter specific logs
+# 
+# Examples:
+# - Only warnings/errors: 
+#   "AzureActivity | where Level in ('Warning', 'Error') | where TimeGenerated > ago(24h)"
+# 
+# - Only specific resource type:
+#   "AzureActivity | where ResourceType == 'Microsoft.Compute/virtualMachines' | where TimeGenerated > ago(24h)"
+#
+# - All table unions (default):
+#   "union withsource=TableName * | where TimeGenerated > ago(24h)"
+#
+
+kusto_query = null
+
+# ============================================================================
+# OPTIONAL: KEY VAULT (only needed if storing additional secrets)
+# ============================================================================
+
+key_vault_url = null  # Set to "https://your-keyvault.vault.azure.net/" if using Azure Key Vault
+
+# ============================================================================
+# DO NOT MODIFY BELOW - THESE ARE USED BY TERRAFORM
+# ============================================================================
