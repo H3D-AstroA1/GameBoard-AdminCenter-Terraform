@@ -1,0 +1,27 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+.terraform.tfvars
+
+# Local files
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+
+# Output files
+.phase*-outputs.json
+
+# IDE
+.vscode/
+.vs/
+
+# Backup files
+*.backup
+*.bak
